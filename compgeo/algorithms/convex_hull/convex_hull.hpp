@@ -16,7 +16,7 @@ template <typename Tag> struct ConvexHullAlgorithm;
 
 template <typename Tag>
 inline std::vector<geometry::Point>
-compute(const std::vector<geometry::Point> &points, Tag tag) {
+compute(std::vector<geometry::Point> &points, Tag tag) {
   return ConvexHullAlgorithm<Tag>::compute(points, tag);
 }
 } // namespace convex_hull
