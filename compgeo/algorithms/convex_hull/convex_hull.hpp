@@ -1,17 +1,8 @@
-#include "../../geometry/point.hpp"
-#include "../../geometry/polygon.hpp"
+#pragma once
 
-namespace compgeo {
-namespace algorithms {
-namespace convex_hull {
+#include "convex_hull_divide_and_conquer.hpp"
+#include "convex_hull_gift_wrapping.hpp"
+#include "convex_hull_graham_scan.hpp"
+#include "convex_hull_incremental.hpp"
 
-template <typename T> struct ConvexHull {
-
-  virtual ~ConvexHull() = default;
-  virtual compgeo::geometry::Polygon<T>
-  compute(const std::vector<compgeo::geometry::Point<T>> &points) const = 0;
-};
-
-} // namespace convex_hull
-} // namespace algorithms
-} // namespace compgeo
+template <typename Tag> struct ConvexHullAlgorithm;
