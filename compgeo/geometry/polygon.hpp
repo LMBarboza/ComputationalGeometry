@@ -7,20 +7,20 @@ namespace compgeo {
 namespace geometry {
 
 template <typename T> struct Polygon {
-  std::vector<Point<T>> vertices;
+  std::vector<Point> vertices;
 
   Polygon() = default;
-  explicit Polygon(const std::vector<Point<T>> &verts) : vertices(verts) {}
+  explicit Polygon(const std::vector<Point> &verts) : vertices(verts) {}
 
-  T area() const {
-    T a = 0;
+  double area() const {
+    double a = 0;
     size_t n = vertices.size();
     for (size_t i = 0; i < n; ++i) {
       const auto &p = vertices[i];
       const auto &q = vertices[(i + 1) % n];
       a += p.x * q.y - p.y * q.x;
     }
-    return a / static_cast<T>(2);
+    return a / 2.0;
   }
 
   bool is_convex() const {
@@ -36,7 +36,7 @@ template <typename T> struct Polygon {
       const auto &b = vertices[(i + 1) % n];
       const auto &c = vertices[(i + 2) % n];
 
-      T cross_prod = Point<T>::cross(b, c, a);
+      double cross_prod = Point::cross(b, c, a);
       if (cross_prod > 0)
         got_positive = true;
       else if (cross_prod < 0)
@@ -48,7 +48,7 @@ template <typename T> struct Polygon {
     return true;
   }
 
-  bool contains(const Point<T> &p) const {
+  bool contains(const Point &p) const {
     bool inside = false;
     size_t n = vertices.size();
 
