@@ -1,7 +1,7 @@
 #pragma once
-
 #include "../../geometry/point.hpp"
 #include "convex_hull.hpp"
+#include <algorithm>
 #include <vector>
 
 namespace compgeo {
@@ -10,8 +10,44 @@ namespace convex_hull {
 
 template <> struct ConvexHullAlgorithm<GrahamScanTag> {
   static std::vector<geometry::Point>
-  compute(const std::vector<geometry::Point> &points, GrahamScanTag) {
-    return points;
+  compute(std::vector<geometry::Point> &points, GrahamScanTag) {
+    if (points.size() < 3)
+      return points;
+
+    int anchorIndex = 0;
+    for (int i = 1; i < points.size(); ++i) {
+      if (points[i].y < points[anchorIndex].y ||
+          (points[i].y == points[anchorIndex].y &&
+           points[i].x < points[anchorIndex].x)) {
+        anchorIndex = i;
+      }
+    }
+    std::swap(points[0], points[anchorIndex]);
+    geometry::Point anchor = points[0];
+
+    std::sort(points.begin() + 1, points.end(),
+              [anchor](geometry::Point &a, geometry::Point &b) {
+                double c = geometry::Point::cross(anchor, a, b);
+                if (c == 0)
+                  return geometry::Point::distance(anchor, a) <
+                         geometry::Point::distance(anchor, b);
+                return c > 0;
+              });
+
+    std::vector<geometry::Point> hull;
+    hull.push_back(points[0]);
+    hull.push_back(points[1]);
+
+    for (size_t i = 2; i < points.size(); ++i) {
+      while (hull.size() >= 2 &&
+             geometry::Point::cross(hull[hull.size() - 2],
+                                    hull[hull.size() - 1], points[i]) <= 0) {
+        hull.pop_back();
+      }
+      hull.push_back(points[i]);
+    }
+
+    return hull;
   }
 }
 
