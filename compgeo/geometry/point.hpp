@@ -22,6 +22,10 @@ struct Point {
     return (a.x - origin.x) * (b.y - origin.y) -
            (a.y - origin.y) * (b.x - origin.x);
   }
+  static double distance(const Point &A, const Point &B) {
+    double dx = A.x - B.x, dy = A.y - B.y;
+    return dx * dx + dy * dy;
+  }
 };
 } // namespace geometry
 } // namespace compgeo
