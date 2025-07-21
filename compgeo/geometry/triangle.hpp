@@ -12,8 +12,16 @@ struct Triangle {
     return std::abs(
         (a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y)) / (2.0));
   }
+  static double orientation(const Point &a, const Point &b, const Point &c) {
+    // > 0 => CCW, < 0 => CW, == 0 => colinear
+    return (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
+  }
   static bool in_triangle(const Point &p, const Triangle &tri) {
-    const auto &[a, b, c] = tri;
+
+    const Point &a = std::get<0>(tri);
+    const Point &b = std::get<1>(tri);
+    const Point &c = std::get<2>(tri);
+
     double A = triangle_area(a, b, c);
     double A1 = triangle_area(p, b, c);
     double A2 = triangle_area(a, p, c);
