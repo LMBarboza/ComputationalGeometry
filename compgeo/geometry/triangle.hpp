@@ -1,12 +1,11 @@
 #pragma once
 
 #include "point.hpp"
-#include <tuple>
 namespace compgeo {
 namespace geometry {
 
 struct Triangle {
-  std::tuple<Point, Point, Point> a, b, c;
+  Point a, b, c;
 
   static double triangle_area(const Point &a, const Point &b, const Point &c) {
     return std::abs(
@@ -17,10 +16,9 @@ struct Triangle {
     return (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
   }
   static bool in_triangle(const Point &p, const Triangle &tri) {
-
-    const Point &a = std::get<0>(tri);
-    const Point &b = std::get<1>(tri);
-    const Point &c = std::get<2>(tri);
+    const Point &a = tri.a;
+    const Point &b = tri.b;
+    const Point &c = tri.c;
 
     double A = triangle_area(a, b, c);
     double A1 = triangle_area(p, b, c);
