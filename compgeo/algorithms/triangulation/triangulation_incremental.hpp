@@ -4,7 +4,6 @@
 #include "../../geometry/triangle.hpp"
 #include "triangulation.hpp"
 #include <algorithm>
-#include <tuple>
 #include <vector>
 
 namespace compgeo {
@@ -32,9 +31,9 @@ template <> struct TriangulationAlgorithm<IncrementalTag> {
       std::vector<geometry::Triangle> new_tris;
 
       for (const auto &tri : triangles) {
-        const geometry::Point &a = std::get<0>(tri);
-        const geometry::Point &b = std::get<1>(tri);
-        const geometry::Point &c = std::get<2>(tri);
+        const geometry::Point &a = tri.a;
+        const geometry::Point &b = tri.b;
+        const geometry::Point &c = tri.c;
 
         if (geometry::Triangle::orientation(p, a, b) > 0)
           new_tris.emplace_back(p, a, b);
