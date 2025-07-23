@@ -1,4 +1,4 @@
-#include "compgeo/compgeo.hpp"
+#include "compgeo.hpp"
 #include <fstream>
 #include <random>
 
@@ -49,8 +49,8 @@ void write_triangulation_set(std::ofstream &file, int set_id,
 }
 
 int main(void) {
-  std::ofstream hull_file("convex_hull_output.txt");
-  std::ofstream tri_file("triangulation_output.txt");
+  std::ofstream hull_file("data/convex_hull_output.txt");
+  std::ofstream tri_file("data/triangulation_output.txt");
 
   auto points = generate_random_points(30, 0);
   auto hull = compgeo::algorithms::convex_hull::compute(

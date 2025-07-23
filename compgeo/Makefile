@@ -1,6 +1,6 @@
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall -O2
-TARGET = convex_hull_app
+CXXFLAGS = -std=c++17 -O2
+TARGET = main.out 
 SRC = main.cpp
 
 all: $(TARGET)
