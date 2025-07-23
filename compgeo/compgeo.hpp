@@ -1,7 +1,6 @@
 #ifndef COMPGEO_HPP
 #define COMPGEO_HPP
 
-#include "geometry/edge.hpp"
 #include "geometry/point.hpp"
 #include "geometry/polygon.hpp"
 #include "geometry/triangle.hpp"
@@ -12,7 +11,8 @@
 #include "algorithms/convex_hull/convex_hull_graham_scan.hpp"
 #include "algorithms/convex_hull/convex_hull_incremental.hpp"
 
-#include "algorithms/triangulation/tags.hpp"
-#include "algorithms/triangulation/triangulator.hpp"
+#include "algorithms/triangulation/triangulation.hpp"
+#include "algorithms/triangulation/triangulation_incremental.hpp"
+#include "algorithms/triangulation/triangulation_splitting.hpp"
 
 #endif

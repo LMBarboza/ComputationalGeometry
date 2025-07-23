@@ -7,6 +7,8 @@ namespace geometry {
 struct Triangle {
   Point a, b, c;
 
+  Triangle() = default;
+  Triangle(Point a_, Point b_, Point c_) : a(a_), b(b_), c(c_) {};
   static double triangle_area(const Point &a, const Point &b, const Point &c) {
     return std::abs(
         (a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y)) / (2.0));
