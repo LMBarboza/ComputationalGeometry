@@ -13,29 +13,34 @@ template <> struct ConvexHullAlgorithm<IncrementalTag> {
   static std::vector<geometry::Point>
   compute(std::vector<geometry::Point> &points, IncrementalTag) {
     std::sort(points.begin(), points.end());
-    if (points.size() < 3)
+
+    if (points.size() < 3) {
       return points;
-
-    std::vector<geometry::Point> hull(points.begin(), points.begin() + 3);
-
-    for (size_t i = 3; i < points.size(); ++i) {
-      hull.push_back(points[i]);
-
-      bool changed = true;
-      while (changed) {
-        changed = false;
-        for (size_t j = 0; j < hull.size(); ++j) {
-          size_t prev = (j == 0) ? hull.size() - 1 : j - 1;
-          size_t next = (j + 1) % hull.size();
-
-          if (geometry::Point::cross(hull[prev], hull[j], hull[next]) <= 0) {
-            hull.erase(hull.begin() + j);
-            changed = true;
-            break;
-          }
-        }
-      }
     }
+
+    std::vector<geometry::Point> hull;
+
+    for (geometry::Point &p : points) {
+      while (hull.size() >= 2 && geometry::Point::cross(hull[hull.size() - 2],
+                                                        hull.back(), p) <= 0) {
+        hull.pop_back();
+      }
+      hull.push_back(p);
+    }
+
+    int start_hull_size = hull.size();
+
+    for (int i = points.size() - 2; i < points.size(); --i) {
+      geometry::Point &p = points[i];
+      while (hull.size() > start_hull_size &&
+             geometry::Point::cross(hull[hull.size() - 2], hull.back(), p) <=
+                 0) {
+        hull.pop_back();
+      }
+      hull.push_back(p);
+    }
+
+    hull.pop_back();
 
     return hull;
   }

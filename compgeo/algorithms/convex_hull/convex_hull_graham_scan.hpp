@@ -14,15 +14,15 @@ template <> struct ConvexHullAlgorithm<GrahamScanTag> {
     if (points.size() < 3)
       return points;
 
-    int anchorIndex = 0;
+    int anchor_idx = 0;
     for (int i = 1; i < points.size(); ++i) {
-      if (points[i].y < points[anchorIndex].y ||
-          (points[i].y == points[anchorIndex].y &&
-           points[i].x < points[anchorIndex].x)) {
-        anchorIndex = i;
+      if (points[i].y < points[anchor_idx].y ||
+          (points[i].y == points[anchor_idx].y &&
+           points[i].x < points[anchor_idx].x)) {
+        anchor_idx = i;
       }
     }
-    std::swap(points[0], points[anchorIndex]);
+    std::swap(points[0], points[anchor_idx]);
     geometry::Point anchor = points[0];
 
     std::sort(points.begin() + 1, points.end(),
@@ -38,7 +38,7 @@ template <> struct ConvexHullAlgorithm<GrahamScanTag> {
     hull.push_back(points[0]);
     hull.push_back(points[1]);
 
-    for (size_t i = 2; i < points.size(); ++i) {
+    for (int i = 2; i < points.size(); ++i) {
       while (hull.size() >= 2 &&
              geometry::Point::cross(hull[hull.size() - 2],
                                     hull[hull.size() - 1], points[i]) <= 0) {
