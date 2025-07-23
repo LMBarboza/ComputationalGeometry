@@ -1,8 +1,9 @@
 import random
 from typing import List
 from collections import namedtuple, deque
-from typing import Unpack
-import settings
+from typing_extensions import Unpack
+
+from . import settings
 
 Transition = namedtuple("Transition", ("state", "action", "next_state", "reward"))
 

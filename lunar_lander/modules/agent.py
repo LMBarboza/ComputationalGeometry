@@ -4,9 +4,9 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 
-import settings
-from model import MLP
-from replay_memory import ReplayMemory, Transition
+from . import settings
+from .model import MLP
+from .replay_memory import ReplayMemory, Transition
 
 
 class Agent:
