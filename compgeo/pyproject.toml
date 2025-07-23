@@ -1,19 +1,17 @@
 [project]
-name = "lunar-lander"
+name = "plot"
 version = "0.1.0"
 readme = "README.md"
 requires-python = ">=3.12"
 
 
 dependencies = [
-    "gymnasium[box2d]>=0.28",
-    "torch>=2.0",
-    "pygame>=2.5",
+  seaborn,
+  matplotlib
 ]
 
 [project.scripts]
-lunar-lander-train = "train:main"
-lunar-lander-run = "run:main"
+plot = "plot:main"
 
 [build-system]
 requires = ["setuptools>=61.0", "wheel"]

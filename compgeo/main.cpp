@@ -70,10 +70,10 @@ int main(void) {
     auto triangles = compgeo::algorithms::triangulation::compute(
         points, compgeo::algorithms::triangulation::IncrementalTag{});
     write_triangulation_set(tri_file, 0, points, triangles);
+*/
+  auto triangles_1 = compgeo::algorithms::triangulation::compute(
+      points_1, compgeo::algorithms::triangulation::SplittingTag{});
+  write_triangulation_set(tri_file, 1, points_1, triangles_1);
 
-    auto triangles_1 = compgeo::algorithms::triangulation::compute(
-        points_1, compgeo::algorithms::triangulation::SplittingTag{});
-    write_triangulation_set(tri_file, 1, points_1, triangles_1);
-  */
   return 0;
 }

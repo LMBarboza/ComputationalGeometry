@@ -1,0 +1,5 @@
+services:
+  lunar_lander:
+    build:
+      context: .
+      dockerfile: lunar_lander/Dockerfile

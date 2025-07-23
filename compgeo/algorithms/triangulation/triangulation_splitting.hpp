@@ -63,9 +63,9 @@ template <> struct TriangulationAlgorithm<SplittingTag> {
     return triangles;
   }
 };
+static std::vector<geometry::Triangle> &
+compute_delaunay(std::vector<geometry::Triangle> &triangles, SplittingTag) {
 
-static std::vector<geometry::Triangle>
-compute_delauney(std::vector<geometry::Triangle> &triangles, SplittingTag) {
   return triangles;
 }
 } // namespace triangulation

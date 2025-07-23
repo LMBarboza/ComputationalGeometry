@@ -1,4 +1,4 @@
-import gym
+import gymnasium as gym
 import torch
 from itertools import count
 
@@ -7,7 +7,7 @@ from modules.agent import Agent
 
 
 def main() -> None:
-    env = gym.make("LunarLander-v2")
+    env = gym.make("LunarLander-v3")
     device = settings.DEVICE
 
     action_size = env.action_space.n

@@ -1,4 +1,4 @@
-import gym
+import gymnasium as gym
 import torch
 import time
 
@@ -7,7 +7,7 @@ from modules.agent import Agent
 
 
 def main() -> None:
-    env = gym.make("LunarLander-v2", render_mode="human")
+    env = gym.make("LunarLander-v3", render_mode="human")
 
     state, info = env.reset()
     state_size = len(state)
