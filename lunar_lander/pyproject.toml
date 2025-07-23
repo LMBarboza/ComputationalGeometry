@@ -1,0 +1,15 @@
+[project]
+name = "lunar-lander"
+version = "0.1.0"
+readme = "README.md"
+requires-python = "==3.12"
+
+dependencies = [
+    "gym[box2d]",
+    "torch",
+]
+
+
+[project.scripts]
+lunar-lander-train = "train:main"
+lunar-lander-run = "run:main"
