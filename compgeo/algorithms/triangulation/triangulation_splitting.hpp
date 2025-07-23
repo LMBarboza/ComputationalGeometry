@@ -14,60 +14,60 @@ namespace triangulation {
 template <> struct TriangulationAlgorithm<SplittingTag> {
   static std::vector<geometry::Triangle>
   compute(std::vector<geometry::Point> &points, SplittingTag) {
-    if (points.size() < 3)
+    if (points.size() < 3) {
       return {};
+    }
 
-    std::vector<geometry::Point> hull =
+    std::vector<geometry::Point> hull_points =
         convex_hull::compute(points, convex_hull::GrahamScanTag{});
 
+    if (hull_points.size() < 3) {
+      return {};
+    }
+
     std::vector<geometry::Triangle> triangles;
-    for (size_t i = 1; i + 1 < hull.size(); ++i) {
-      triangles.emplace_back(hull[0], hull[i], hull[i + 1]);
+    triangles.reserve(points.size() * 2);
+    for (int i = 1; i + 1 < hull_points.size(); ++i) {
+      triangles.emplace_back(hull_points[0], hull_points[i],
+                             hull_points[i + 1]);
     }
 
-    std::vector<geometry::Point> interior;
-    for (const auto &p : points) {
-      if (std::find(hull.begin(), hull.end(), p) != hull.end())
+    std::sort(points.begin(), points.end());
+    std::sort(hull_points.begin(), hull_points.end());
+
+    std::vector<geometry::Point> interior_points;
+    std::set_difference(points.begin(), points.end(), hull_points.begin(),
+                        hull_points.end(), std::back_inserter(interior_points));
+
+    for (geometry::Point &p : interior_points) {
+      std::vector<geometry::Triangle>::iterator in_triang = std::find_if(
+          triangles.begin(), triangles.end(), [&p](geometry::Triangle &tri) {
+            return geometry::Triangle::in_triangle(p, tri);
+          });
+
+      if (in_triang == triangles.end()) {
         continue;
+      }
 
-      int cnt = 0;
-      for (size_t i = 0; i < hull.size(); ++i) {
-        const auto &a = hull[i];
-        const auto &b = hull[(i + 1) % hull.size()];
-        if ((a.y > p.y) != (b.y > p.y)) {
-          double atX = (b.x - a.x) * (p.y - a.y) / (b.y - a.y + 1e-9) + a.x;
-          if (p.x < atX)
-            cnt++;
-        }
-      }
-      if (cnt % 2 == 1) {
-        interior.push_back(p);
-      }
+      geometry::Triangle out_triangle = *in_triang;
+      geometry::Point v1 = out_triangle.a;
+      geometry::Point v2 = out_triangle.b;
+      geometry::Point v3 = out_triangle.c;
+
+      *in_triang = geometry::Triangle(v1, v2, p);
+
+      triangles.emplace_back(v2, v3, p);
+      triangles.emplace_back(v3, v1, p);
     }
 
-    for (const auto &ip : interior) {
-      for (size_t i = 0; i < triangles.size(); ++i) {
-        if (geometry::Triangle::in_triangle(ip, triangles[i])) {
-          auto [a, b, c] = triangles[i];
-          triangles.erase(triangles.begin() + i);
-          triangles.emplace_back(a, b, ip);
-          triangles.emplace_back(b, c, ip);
-          triangles.emplace_back(c, a, ip);
-          break;
-        }
-      }
-    }
-
-    return triangles;
-  }
-
-  static std::vector<geometry::Triangle>
-  compute_delauney(std::vector<geometry::Triangle> &triangles, SplittingTag) {
     return triangles;
   }
 };
+
+static std::vector<geometry::Triangle>
+compute_delauney(std::vector<geometry::Triangle> &triangles, SplittingTag) {
+  return triangles;
+}
 } // namespace triangulation
-
 } // namespace algorithms
-
 } // namespace compgeo
