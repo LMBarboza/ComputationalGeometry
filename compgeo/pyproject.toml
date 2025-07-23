@@ -6,8 +6,8 @@ requires-python = ">=3.12"
 
 
 dependencies = [
-  seaborn,
-  matplotlib
+  "seaborn",
+  "matplotlib"
 ]
 
 [project.scripts]
